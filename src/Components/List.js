@@ -1,7 +1,14 @@
 import React from 'react'
 import ListTask from './ListTask'
 
-function List() {
+function List({renderTasks}) {
+    
+    // Tạo ra Task từ danh sách
+    let elementTask = renderTasks.map((item, index)=>{
+        return <ListTask key={item.taskId} renderTask={item} rollNo={index+1}
+         
+        />
+    })
     return (
         <div className="panel panel-success">
             <div className="panel-heading">List Task</div>
@@ -19,9 +26,7 @@ function List() {
                     </tr>
                 </thead>
                 <tbody>
-                    <ListTask />
-                    <ListTask />
-                    <ListTask />
+                    {elementTask}
                 </tbody>
             </table>
         </div>
