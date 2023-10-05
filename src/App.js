@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import Control from './Component/Control';
-import Form from './Component/Form';
-import List from './Component/List';
-import Title from './Component/Title';
+import Control from './Components/Control';
+import Form from './Components/Form';
+import List from './Components/List';
+import Title from './Components/Title';
 
 function App() {
   // Khởi tạo dữ liệu
@@ -99,6 +99,7 @@ function App() {
     }else{
       setTask(task);
     }
+    updateSearchResults(searchEngine);
   }
 
   // Hàm xử lý sự kiện Delete
@@ -108,13 +109,47 @@ function App() {
   }
 
   // Hàm xử lý sự kiện Search
-  const [searchResults, setSearchResults] = useState([]);
-  const handleSearch = (searchEngine) => { 
-    const results = tasks.filter((task)=>{
-      task.taskName.toLowerCase().includes(searchEngine.toLowerCase());
-    });
+  const [searchEngine, setSearchEngine] = useState(''); // Thêm state cho ô tìm kiếm
+  const [searchResults, setSearchResults] = useState([]); 
+
+  const handleSearch = () => { 
+    const results = tasks.filter((task) =>
+      task.taskName.toLowerCase().includes(searchEngine.toLowerCase())
+    );
     setSearchResults(results);
+    console.log('Search button clicked',results);
   }
+  
+  // Hàm xử lý sự kiện Search sau khi thực hiện thay đổi 
+  const updateSearchResults = (engine) => {
+    const results = tasks.filter((task) =>
+      task.taskName.toLowerCase().includes(engine.toLowerCase())
+    );
+    setSearchResults(results);
+  };
+
+  // Hàm xử lý sự kiện Sort
+  const handleSort = (sortType, sortOrder) => {
+    const sortedTasks = [...tasks];
+    sortedTasks.sort((a, b) => {
+      if(sortType === 'level'){
+        if(sortOrder === 'ascending'){
+          return a.level - b.level;
+        }else{
+          return b.level - a.level;
+        }
+      }else if(sortType === 'taskName'){
+        if(sortOrder === 'ascending'){
+          return a.taskName.localeCompare(b.taskName);
+        }else{
+          return b.taskName.localeCompare(a.taskName);
+        }
+      }
+      return 0;
+    });
+    setTasks(sortedTasks);
+  }
+  
 
   // Form
   let elementForm = (toggle === true)? <Form onCancel={handleCancel} renderTask={tast} actionName={actionName} onSubmit={handleSubmit} />:"";
@@ -122,7 +157,7 @@ function App() {
   return (
     <div className='container'>
       <Title />
-      <Control onAddTask={handleAddOrEditTask} onSearch={handleSearch}/>
+      <Control onAddTask={handleAddOrEditTask} onSearch={handleSearch} onSort={handleSort}/>
       {elementForm}
       <List onEdit={handleAddOrEditTask} onDelete={handleDelete} renderTasks={searchResults.length>0?searchResults:tasks} />
     </div>
