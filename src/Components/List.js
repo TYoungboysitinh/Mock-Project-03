@@ -1,12 +1,23 @@
 import React from 'react'
 import ListTask from './ListTask'
 
-function List({renderTasks}) {
+function List({renderTasks, onEdit, onDelete}) {
     
+    // Hàm xử lý sự kiện cho chức năng Edit
+    const handleEdit = (toggle, actionName, task) => {
+        onEdit(toggle, actionName, task);
+    }
+
+    // Hàm xử lý sự kiện cho chức năng Delete
+    const handleDelete = (task) =>{
+        onDelete(task)
+        console.log(renderTasks);
+    }
+
     // Tạo ra Task từ danh sách
     let elementTask = renderTasks.map((item, index)=>{
-        return <ListTask key={item.taskId} renderTask={item} rollNo={index+1}
-         
+        return <ListTask key={item.taskId} renderTask={item} rollNo={index+1} 
+        onEdit={handleEdit} onDelete={handleDelete}
         />
     })
     return (
