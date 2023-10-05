@@ -15,11 +15,11 @@ function List({renderTasks, onEdit, onDelete}) {
     }
 
     // Tạo ra Task từ danh sách
-    let elementTask = renderTasks.map((item, index)=>{
-        return <ListTask key={item.taskId} renderTask={item} rollNo={index+1} 
-        onEdit={handleEdit} onDelete={handleDelete}
+    let elementTask = renderTasks.map((item, index) => (
+        <ListTask key={item.taskId} renderTask={item} rollNo={index + 1} 
+          onEdit={handleEdit} onDelete={handleDelete}
         />
-    })
+      ));
     return (
         <div className="panel panel-success">
             <div className="panel-heading">List Task</div>
