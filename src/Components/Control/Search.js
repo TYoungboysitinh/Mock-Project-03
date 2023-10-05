@@ -4,12 +4,10 @@ export default function Search({onSearch}) {
 
     // Chức năng tìm kiếm 
     const [searchEngine, setSearchEngine] = useState('');
+
     const handleSearch = () => { 
         onSearch(searchEngine);
     };
-
-
-
     return (
         <div className="col-xs-4 col-sm-4 col-md-4 col-lg-4">
             <div className="input-group">
@@ -21,7 +19,7 @@ export default function Search({onSearch}) {
                 />
                 <span className="input-group-btn">
                     <button className="btn btn-info" type="button" onClick={handleSearch}>
-                        Go!
+                        Search
                     </button>
                 </span>
             </div>
